@@ -356,15 +356,39 @@
         .info-title {
             display: flex;
             align-items: center;
-            gap: 10px;
+            justify-content: space-between;
             font-size: 0.95rem;
             font-weight: bold;
             color: #ff5252;
             margin-bottom: 5px;
         }
 
+        .info-title-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
         .info-title i {
             font-size: 1.1rem;
+        }
+
+        /* Real-time Status Badge Styles */
+        .status-badge {
+            font-size: 0.75rem;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .status-badge.open {
+            background-color: #2e7d32;
+            color: #fff;
+        }
+        .status-badge.closed {
+            background-color: #c62828;
+            color: #fff;
         }
 
         .info-desc {
@@ -883,6 +907,31 @@
             background-color: #b71c1c;
         }
 
+        .modal-btn-inquire {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            background-color: #0084ff;
+            color: #fff;
+            border: none;
+            padding: 14px;
+            font-size: 0.95rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            margin-bottom: 12px;
+            transition: background 0.3s;
+        }
+
+        .modal-btn-inquire:hover {
+            background-color: #006dd9;
+        }
+
         .modal-btn-cod {
             display: flex;
             align-items: center;
@@ -1139,7 +1188,6 @@
                 </div>
             </div>
 
-            <!-- Reviews Menu Link -->
             <button onclick="switchView('reviews-view')">Reviews</button>
 
             <button class="cart-nav-btn" onclick="toggleCartDrawer()">
@@ -1164,24 +1212,22 @@
                 <div class="info-box">
                     <div class="info-item">
                         <div class="info-title">
-                            <i class="fas fa-headset"></i> Call Us / Hotline
+                            <div class="info-title-left"><i class="fas fa-store"></i> Shop Status</div>
+                            <span id="shopStatusBadge" class="status-badge closed">Checking...</span>
+                        </div>
+                        <div class="info-desc">Mon - Sat: 8:00 AM - 6:00 PM</div>
+                    </div>
+
+                    <div class="info-item">
+                        <div class="info-title">
+                            <div class="info-title-left"><i class="fas fa-headset"></i> Call Us / Hotline</div>
                         </div>
                         <div class="info-desc">+63916-403-5627</div>
                     </div>
 
                     <div class="info-item">
                         <div class="info-title">
-                            <i class="fas fa-headset"></i> Customer Service
-                        </div>
-                        <div class="info-desc">
-                            Available Mon - Sat (8:00 AM - 6:00 PM)<br>
-                            Gmail: nihonautomotivesph@gmail.com
-                        </div>
-                    </div>
-
-                    <div class="info-item">
-                        <div class="info-title">
-                            <i class="fas fa-map-marker-alt"></i> We are Here
+                            <div class="info-title-left"><i class="fas fa-map-marker-alt"></i> We are Here</div>
                         </div>
                         <div class="info-desc">
                             Pagbilao, Quezon, Philippines
@@ -1426,6 +1472,10 @@
 
                 <button class="modal-btn-cart" onclick="addCurrentProductToCart()">Add to Cart</button>
                 
+                <a id="modalInquireBtn" href="#" target="_blank" class="modal-btn-inquire">
+                    <i class="fab fa-facebook-messenger"></i> Inquire via Messenger
+                </a>
+                
                 <a href="https://www.facebook.com/NihonAutomotives" target="_blank" class="modal-btn-cod">
                     <i class="fas fa-shopping-cart"></i> Buy with Cash on Delivery
                 </a>
@@ -1499,7 +1549,28 @@
                 loader.style.opacity = '0';
                 loader.style.visibility = 'hidden';
             }, 1200);
+            
+            checkShopStatus();
         });
+
+        // Real-Time Shop Status Checker (Mon-Sat, 8:00 AM - 6:00 PM)
+        function checkShopStatus() {
+            const now = new Date();
+            const day = now.getDay(); // 0 is Sunday, 1-6 is Mon-Sat
+            const hour = now.getHours();
+            const badge = document.getElementById('shopStatusBadge');
+
+            // Mon(1) to Sat(6), between 8 AM (8) and 6 PM (18)
+            const isOpen = (day >= 1 && day <= 6) && (hour >= 8 && hour < 18);
+
+            if (isOpen) {
+                badge.innerText = "Open Now";
+                badge.className = "status-badge open";
+            } else {
+                badge.innerText = "Closed";
+                badge.className = "status-badge closed";
+            }
+        }
 
         let cart = [];
         let reviews = [];
@@ -1556,6 +1627,10 @@
             document.getElementById('modalPrice').innerText = '₱' + price.toLocaleString() + '.00 PHP';
             document.getElementById('modalImg').src = imgSrc;
             document.getElementById('modalQty').value = 1;
+            
+            let encodedMessage = encodeURIComponent(`Hello Nihon Automotives PH, I would like to inquire about this part: ${title} (Price: ₱${price.toLocaleString()}.00 PHP)`);
+            document.getElementById('modalInquireBtn').href = `https://m.me/NihonAutomotives?text=${encodedMessage}`;
+
             document.getElementById('productModal').style.display = 'flex';
         }
 
