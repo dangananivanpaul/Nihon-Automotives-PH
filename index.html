@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nihon Automotives PH - Automotive Parts & Services</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #111;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        /* Header / Navbar */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 50px;
+            background-color: #ffffff;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo-container img {
+            height: 45px;
+            object-fit: contain;
+            cursor: pointer;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        nav a, nav button {
+            text-decoration: none;
+            color: #333;
+            font-weight: 600;
+            font-size: 15px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        nav a:hover, nav button:hover {
+            color: #d32f2f;
+        }
+
+        /* Dropdown General Styles */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: #ffffff;
+            box-shadow: 0px 8px 16px rgba(0,0,0,0.15);
+            min-width: 240px;
+            padding: 10px 0;
+            border-radius: 6px;
+            z-index: 100;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+        }
+
+        .dropdown:hover .dropdown-content {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+            display: block;
+        }
+
+        .dropdown-content a, .dropdown-content button {
+            color: #333;
+            padding: 12px 20px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            font-weight: 500;
+            width: 100%;
+            text-align: left;
+            background: none;
+            border: none;
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .dropdown-content a:hover, .dropdown-content button:hover {
+            background-color: #f5f5f5;
+            color: #d32f2f;
+        }
+
+        .dropdown-content i {
+            color: #d32f2f;
+            width: 18px;
+        }
+
+        .contacts-dropdown .dropdown-content {
+            left: auto;
+            right: 0;
+            min-width: unset;
+            display: flex;
+            gap: 10px;
+            padding: 10px;
+        }
+
+        .social-popup-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            background-color: #d32f2f;
+            color: white !important;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 16px;
+            padding: 0 !important;
+            transition: opacity 0.3s;
+        }
+
+        .social-popup-item:hover {
+            opacity: 0.8;
+        }
+
+        /* Page Views Control */
+        .page-view {
+            display: none;
+            min-height: calc(100vh - 85px);
+        }
+
+        .page-view.active {
+            display: flex;
+        }
+
+        /* Hero Section (Home View) */
+        .hero {
+            width: 100%;
+            display: flex;
+        }
+
+        /* Left Side: Blurry Repair Shop & Van Background */
+        .hero-left {
+            flex: 1;
+            background: url('https://images.unsplash.com/photo-1613214149922-f1809c99b414?auto=format&fit=crop&w=1200&q=80') center/cover no-repeat;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 80px 60px;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .hero-left::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 15, 15, 0.78);
+            backdrop-filter: blur(5px);
+            z-index: -1;
+        }
+
+        .hero-left h1 {
+            font-size: 4.2rem;
+            font-weight: 800;
+            line-height: 1.1;
+            color: #ffffff;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-left p {
+            font-size: 1.15rem;
+            color: #dddddd;
+            margin-bottom: 40px;
+            max-width: 450px;
+            line-height: 1.5;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 2;
+        }
+
+        .btn-quote {
+            display: inline-block;
+            padding: 15px 35px;
+            border: 2px solid white;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            width: fit-content;
+            cursor: pointer;
+            background: rgba(211, 47, 47, 0.9);
+            transition: all 0.3s ease;
+        }
+
+        .btn-quote:hover {
+            background-color: white;
+            color: #d32f2f;
+            border-color: white;
+        }
+
+        .btn-lazada {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px 35px;
+            background-color: #0f146d;
+            border: 2px solid #0f146d;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            width: fit-content;
+            transition: all 0.3s ease;
+        }
+
+        .btn-lazada:hover {
+            background-color: #ffffff;
+            color: #0f146d;
+            border-color: #ffffff;
+        }
+
+        /* Right Side: Using user uploaded hiace-van.jpg image */
+        .hero-right {
+            flex: 1.2;
+            background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.5)), url('Black.png') center/cover no-repeat;
+            position: relative;
+            display: flex;
+            align-items: flex-end;
+            justify-content: flex-end;
+            padding: 40px;
+        }
+
+        .info-box {
+            background: rgba(20, 20, 20, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 25px 30px;
+            width: 350px;
+            backdrop-filter: blur(5px);
+        }
+
+        .info-item {
+            margin-bottom: 20px;
+        }
+
+        .info-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .info-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.95rem;
+            font-weight: bold;
+            color: #ff5252;
+            margin-bottom: 5px;
+        }
+
+        .info-title i {
+            font-size: 1.1rem;
+        }
+
+        .info-desc {
+            font-size: 0.9rem;
+            color: #ddd;
+            padding-left: 26px;
+            line-height: 1.4;
+        }
+
+        .map-link {
+            text-decoration: none;
+            display: block;
+            transition: transform 0.2s ease;
+        }
+
+        .map-link:hover {
+            transform: translateY(-3px);
+        }
+
+        .map-box-interactive {
+            background: rgba(211, 47, 47, 0.2);
+            border: 1px dashed #ff5252;
+            padding: 10px 12px;
+            border-radius: 4px;
+            margin-top: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: background 0.3s;
+        }
+
+        .map-link:hover .map-box-interactive {
+            background: rgba(211, 47, 47, 0.4);
+            border-color: #ffffff;
+        }
+
+        .map-box-interactive span {
+            font-size: 0.85rem;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .map-box-interactive i {
+            color: #ff5252;
+            font-size: 0.9rem;
+            transition: transform 0.2s;
+        }
+
+        .map-link:hover .map-box-interactive i {
+            transform: translateX(3px);
+            color: #ffffff;
+        }
+
+        /* Catalog Section (Parts View) */
+        .catalog-section {
+            width: 100%;
+            padding: 60px 50px;
+            background-color: #0d0d0d;
+            flex-direction: column;
+        }
+
+        .catalog-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            margin-bottom: 40px;
+            text-align: center;
+            color: #fff;
+            letter-spacing: 1px;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .product-card {
+            background-color: #1a1a1a;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s, border-color 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            border-color: #ff5252;
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            background-color: #000;
+        }
+
+        .product-card-info {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            justify-content: space-between;
+        }
+
+        .product-card-title {
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+
+        .product-card-price {
+            font-size: 1.1rem;
+            color: #ff5252;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .btn-view-details {
+            background-color: #d32f2f;
+            color: #fff;
+            border: none;
+            padding: 10px;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            border-radius: 4px;
+            text-align: center;
+            transition: background 0.2s;
+        }
+
+        .product-card:hover .btn-view-details {
+            background-color: #b71c1c;
+        }
+
+        /* Popup Modal Styles */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-container {
+            background-color: #1a1a1a;
+            border: 1px solid #444;
+            border-radius: 8px;
+            max-width: 900px;
+            width: 100%;
+            display: flex;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: #aaa;
+            font-size: 1.8rem;
+            cursor: pointer;
+            z-index: 10;
+            transition: color 0.2s;
+        }
+
+        .modal-close:hover {
+            color: #fff;
+        }
+
+        .modal-image-box {
+            flex: 1;
+            background-color: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+        }
+
+        .modal-image-box img {
+            width: 100%;
+            max-height: 350px;
+            object-fit: contain;
+        }
+
+        .modal-details-box {
+            flex: 1.2;
+            padding: 40px 30px 30px 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .modal-title {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 10px;
+            line-height: 1.2;
+        }
+
+        .modal-price {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #ff5252;
+            margin-bottom: 20px;
+        }
+
+        .modal-quantity-area {
+            display: flex;
+            align-items: center;
+            width: 130px;
+            border: 1px solid #444;
+            border-radius: 4px;
+            margin-bottom: 25px;
+            background-color: #111;
+        }
+
+        .modal-qty-btn {
+            background: none;
+            border: none;
+            color: #fff;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .modal-qty-input {
+            width: 40px;
+            background: none;
+            border: none;
+            color: #fff;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .modal-btn-cart {
+            display: block;
+            width: 100%;
+            background-color: #ffffff;
+            color: #000;
+            border: none;
+            padding: 14px;
+            font-size: 0.95rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-bottom: 12px;
+            text-align: center;
+            text-decoration: none;
+            transition: background 0.3s;
+        }
+
+        .modal-btn-cart:hover {
+            background-color: #ddd;
+        }
+
+        .modal-btn-cod {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            background-color: #000;
+            color: #fff;
+            border: 1px solid #444;
+            padding: 14px;
+            font-size: 0.95rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: border-color 0.3s;
+        }
+
+        .modal-btn-cod:hover {
+            border-color: #ff5252;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .modal-container {
+                flex-direction: column;
+                max-height: 90vh;
+                overflow-y: auto;
+            }
+            .hero {
+                flex-direction: column;
+            }
+            .hero-left h1 {
+                font-size: 3rem;
+            }
+            .hero-right {
+                min-height: 400px;
+            }
+            header {
+                padding: 15px 20px;
+                flex-direction: column;
+                gap: 15px;
+            }
+            .catalog-section {
+                padding: 40px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Section -->
+    <header>
+        <div class="logo-container">
+            <img src="logo.jpg" alt="Nihon Automotives PH Logo" onclick="switchView('home-view')">
+        </div>
+        <nav>
+            <button onclick="switchView('home-view')">Home</button>
+            
+            <div class="dropdown">
+                <button class="dropdown-btn">Auto parts & Services <i class="fas fa-chevron-down" style="font-size: 11px;"></i></button>
+                <div class="dropdown-content">
+                    <button onclick="switchView('parts-view')"><i class="fas fa-car-side"></i> Surplus & Brand New Parts</button>
+                    <a href="https://www.facebook.com/NihonAutomotives" target="_blank"><i class="fas fa-tools"></i> Maintenance & Repair</a>
+                    <a href="https://www.lazada.com.ph/shop/mjd-japtech-autoparts-and-accessories-shop/?spm=a2o4l.pdp_revamp.seller.1.2ad67f68bIhYWP&itemId=1765886167&channelSource=pdp" target="_blank"><i class="fas fa-shopping-bag"></i> Shop on Lazada</a>
+                </div>
+            </div>
+            
+            <div class="dropdown contacts-dropdown">
+                <button class="dropdown-btn">Contacts <i class="fas fa-chevron-down" style="font-size: 11px;"></i></button>
+                <div class="dropdown-content">
+                    <a href="https://www.facebook.com/NihonAutomotives" target="_blank" title="Facebook" class="social-popup-item"><i class="fab fa-facebook-f" style="color:white !important; width:auto;"></i></a>
+                    <a href="https://www.lazada.com.ph/shop/mjd-japtech-autoparts-and-accessories-shop/?spm=a2o4l.pdp_revamp.seller.1.2ad67f68bIhYWP&itemId=1765886167&channelSource=pdp" target="_blank" title="Lazada Shop" class="social-popup-item"><i class="fas fa-shopping-bag" style="color:white !important; width:auto;"></i></a>
+                    <a href="#" target="_blank" title="YouTube" class="social-popup-item"><i class="fab fa-youtube" style="color:white !important; width:auto;"></i></a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- VIEW 1: HOME PAGE -->
+    <div id="home-view" class="page-view active">
+        <section class="hero">
+            <!-- Left Side: Blurry Repair Shop -->
+            <div class="hero-left">
+                <h1>Toyota Hiace Van & Parts Specialists</h1>
+                <p>Your trusted source for surplus and brand new Japanese van spare parts, accessories, and expert maintenance services.</p>
+                <div class="hero-buttons">
+                    <button class="btn-quote" onclick="switchView('parts-view')">Browse Parts</button>
+                    <a href="https://www.lazada.com.ph/shop/mjd-japtech-autoparts-and-accessories-shop/?spm=a2o4l.pdp_revamp.seller.1.2ad67f68bIhYWP&itemId=1765886167&channelSource=pdp" target="_blank" class="btn-lazada"><i class="fas fa-shopping-cart"></i> Shop on Lazada</a>
+                </div>
+            </div>
+
+            <!-- Right Side: Black Hiace Van Image (hiace-van.jpg) & Info Box -->
+            <div class="hero-right">
+                <div class="info-box">
+                    <div class="info-item">
+                        <div class="info-title">
+                            <i class="fas fa-headset"></i> Call Us 24/7
+                        </div>
+                        <div class="info-desc">+63 912-345-6789</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-title">
+                            <i class="fas fa-map-marker-alt"></i> We are Here
+                        </div>
+                        <div class="info-desc">
+                            Pagbilao, Quezon, Philippines
+                            <a href="https://www.google.com/maps/place/Nihon+Automotives+PH/@13.9684092,121.6563776,17z/data=!3m1!4b1!4m6!3m5!1s0x33a2b38d37701435:0xa3dc458bae2076bb!8m2!3d13.9684092!4d121.6589579!16s%2Fg%2F11tk8ly20f?entry=ttu&g_ep=EgoyMDI2MDkxMy4wIKXMDSoASAFQAw%3D%3D" target="_blank" class="map-link">
+                                <div class="map-box-interactive">
+                                    <span><i class="fas fa-map-marked-alt"></i> Open in Google Maps</span>
+                                    <i class="fas fa-arrow-right"></i>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- VIEW 2: SURPLUS & BRAND NEW PARTS PAGE -->
+    <div id="parts-view" class="page-view">
+        <section class="catalog-section">
+            <h2 class="catalog-title">Surplus & Brand New Parts Catalog</h2>
+            <div class="products-grid">
+                
+                <!-- Product 1 -->
+                <div class="product-card" onclick="openModal('Toyota Hiace Custom LED Projector Headlights', '₱14,500.00 PHP', 'https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?auto=format&fit=crop&w=800&q=80')">
+                    <img src="https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?auto=format&fit=crop&w=800&q=80" alt="Headlights">
+                    <div class="product-card-info">
+                        <div>
+                            <div class="product-card-title">Toyota Hiace Custom LED Projector Headlights</div>
+                            <div class="product-card-price">₱14,500.00 PHP</div>
+                        </div>
+                        <div class="btn-view-details">View Details</div>
+                    </div>
+                </div>
+
+                <!-- Product 2 -->
+                <div class="product-card" onclick="openModal('Toyota Hiace Heavy Duty Front Suspension Arm', '₱4,800.00 PHP', 'https://images.unsplash.com/photo-1486006920555-c77dce18193b?auto=format&fit=crop&w=800&q=80')">
+                    <img src="https://images.unsplash.com/photo-1486006920555-c77dce18193b?auto=format&fit=crop&w=800&q=80" alt="Suspension">
+                    <div class="product-card-info">
+                        <div>
+                            <div class="product-card-title">Toyota Hiace Heavy Duty Front Suspension Arm</div>
+                            <div class="product-card-price">₱4,800.00 PHP</div>
+                        </div>
+                        <div class="btn-view-details">View Details</div>
+                    </div>
+                </div>
+
+                <!-- Product 3 -->
+                <div class="product-card" onclick="openModal('Ceramic Brake Pads Set (Front/Rear)', '₱2,200.00 PHP', 'https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&w=800&q=80')">
+                    <img src="https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&w=800&q=80" alt="Brake Pads">
+                    <div class="product-card-info">
+                        <div>
+                            <div class="product-card-title">Ceramic Brake Pads Set (Front / Rear)</div>
+                            <div class="product-card-price">₱2,200.00 PHP</div>
+                        </div>
+                        <div class="btn-view-details">View Details</div>
+                    </div>
+                </div>
+
+                <!-- Product 4 -->
+                <div class="product-card" onclick="openModal('Surplus High-Output Alternator (Japan Import)', '₱6,500.00 PHP', 'https://images.unsplash.com/photo-1508974239320-0a029497e820?auto=format&fit=crop&w=800&q=80')">
+                    <img src="https://images.unsplash.com/photo-1508974239320-0a029497e820?auto=format&fit=crop&w=800&q=80" alt="Alternator">
+                    <div class="product-card-info">
+                        <div>
+                            <div class="product-card-title">Surplus High-Output Alternator (Japan Import)</div>
+                            <div class="product-card-price">₱6,500.00 PHP</div>
+                        </div>
+                        <div class="btn-view-details">View Details</div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </div>
+
+    <!-- Popup Modal Component for Products -->
+    <div id="productModal" class="modal-overlay" onclick="closeModalOutside(event)">
+        <div class="modal-container">
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+            
+            <div class="modal-image-box">
+                <img id="modalImg" src="" alt="Product Image">
+            </div>
+
+            <div class="modal-details-box">
+                <h2 id="modalTitle" class="modal-title">Product Name</h2>
+                <div id="modalPrice" class="modal-price">₱0.00 PHP</div>
+
+                <div style="font-size: 0.85rem; font-weight: 600; color: #aaa; margin-bottom: 6px; text-transform: uppercase;">Quantity</div>
+                <div class="modal-quantity-area">
+                    <button class="modal-qty-btn" onclick="modalDecrement()">-</button>
+                    <input type="text" id="modalQty" class="modal-qty-input" value="1" readonly>
+                    <button class="modal-qty-btn" onclick="modalIncrement()">+</button>
+                </div>
+
+                <a href="https://www.lazada.com.ph/shop/mjd-japtech-autoparts-and-accessories-shop/?spm=a2o4l.pdp_revamp.seller.1.2ad67f68bIhYWP&itemId=1765886167&channelSource=pdp" target="_blank" class="modal-btn-cart">Add to Cart</a>
+                
+                <a href="https://www.facebook.com/NihonAutomotives" target="_blank" class="modal-btn-cod">
+                    <i class="fas fa-shopping-cart"></i> Buy with Cash on Delivery
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function switchView(viewId) {
+            const views = document.querySelectorAll('.page-view');
+            views.forEach(view => {
+                view.classList.remove('active');
+            });
+            document.getElementById(viewId).classList.add('active');
+            window.scrollTo(0, 0);
+        }
+
+        function openModal(title, price, imgSrc) {
+            document.getElementById('modalTitle').innerText = title;
+            document.getElementById('modalPrice').innerText = price;
+            document.getElementById('modalImg').src = imgSrc;
+            document.getElementById('modalQty').value = 1;
+            document.getElementById('productModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('productModal').style.display = 'none';
+        }
+
+        function closeModalOutside(event) {
+            if (event.target.id === 'productModal') {
+                closeModal();
+            }
+        }
+
+        function modalIncrement() {
+            let input = document.getElementById('modalQty');
+            input.value = parseInt(input.value) + 1;
+        }
+
+        function modalDecrement() {
+            let input = document.getElementById('modalQty');
+            let val = parseInt(input.value);
+            if (val > 1) {
+                input.value = val - 1;
+            }
+        }
+    </script>
+</body>
+</html>
