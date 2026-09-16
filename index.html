@@ -373,7 +373,6 @@
             font-size: 1.1rem;
         }
 
-        /* Real-time Status Badge Styles */
         .status-badge {
             font-size: 0.75rem;
             padding: 3px 8px;
@@ -568,11 +567,38 @@
             transition: transform 0.3s, border-color 0.3s;
             display: flex;
             flex-direction: column;
+            position: relative;
         }
 
         .product-card:hover {
             transform: translateY(-5px);
             border-color: #ff5252;
+        }
+
+        /* Stock Badge on Card */
+        .card-stock-badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            padding: 4px 10px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            border-radius: 4px;
+            z-index: 5;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+        }
+        .card-stock-badge.instock {
+            background-color: #2e7d32;
+            color: #fff;
+        }
+        .card-stock-badge.lowstock {
+            background-color: #e65100;
+            color: #fff;
+        }
+        .card-stock-badge.outofstock {
+            background-color: #c62828;
+            color: #fff;
         }
 
         .product-card img {
@@ -854,7 +880,17 @@
             font-size: 1.4rem;
             font-weight: 600;
             color: #ff5252;
+            margin-bottom: 15px;
+        }
+
+        .modal-stock-status {
+            display: inline-block;
+            font-size: 0.85rem;
+            font-weight: bold;
+            padding: 4px 10px;
+            border-radius: 4px;
             margin-bottom: 20px;
+            text-transform: uppercase;
         }
 
         .modal-quantity-area {
@@ -863,7 +899,7 @@
             width: 130px;
             border: 1px solid #444;
             border-radius: 4px;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             background-color: #111;
         }
 
@@ -905,6 +941,12 @@
 
         .modal-btn-cart:hover {
             background-color: #b71c1c;
+        }
+
+        .modal-btn-cart:disabled {
+            background-color: #444;
+            color: #888;
+            cursor: not-allowed;
         }
 
         .modal-btn-inquire {
@@ -1270,7 +1312,10 @@
             </div>
 
             <div class="products-grid" id="productsGrid">
-                <div class="product-card" data-category="lights" data-name="toyota hiace custom led projector headlight" onclick="openModal('Toyota Hiace Custom LED Projector Headlight', 7500, 'https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?auto=format&fit=crop&w=800&q=80')">
+                
+                <!-- Product 1: Headlight (In Stock) -->
+                <div class="product-card" data-category="lights" data-name="toyota hiace custom led projector headlight" onclick="openModal('Toyota Hiace Custom LED Projector Headlight', 7500, 'https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?auto=format&fit=crop&w=800&q=80', 'In Stock (12 pcs available)')">
+                    <span class="card-stock-badge instock">In Stock</span>
                     <img src="https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?auto=format&fit=crop&w=800&q=80" alt="Headlight">
                     <div class="product-card-info">
                         <div>
@@ -1281,7 +1326,9 @@
                     </div>
                 </div>
 
-                <div class="product-card" data-category="lights" data-name="toyota hiace smoke led tail light assembly" onclick="openModal('Toyota Hiace Smoke LED Tail Light Assembly', 4500, 'https://images.unsplash.com/photo-1508974239320-0a029497e820?auto=format&fit=crop&w=800&q=80')">
+                <!-- Product 2: Tail Light (Low Stock) -->
+                <div class="product-card" data-category="lights" data-name="toyota hiace smoke led tail light assembly" onclick="openModal('Toyota Hiace Smoke LED Tail Light Assembly', 4500, 'https://images.unsplash.com/photo-1508974239320-0a029497e820?auto=format&fit=crop&w=800&q=80', 'Low Stock (Only 2 left!)')">
+                    <span class="card-stock-badge lowstock">Low Stock</span>
                     <img src="https://images.unsplash.com/photo-1508974239320-0a029497e820?auto=format&fit=crop&w=800&q=80" alt="Tail Light">
                     <div class="product-card-info">
                         <div>
@@ -1292,7 +1339,9 @@
                     </div>
                 </div>
 
-                <div class="product-card" data-category="brakes" data-name="heavy duty ceramic brake pads set front rear" onclick="openModal('Heavy Duty Ceramic Brake Pads Set (Front/Rear)', 2200, 'https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&w=800&q=80')">
+                <!-- Product 3: Brake Pads (In Stock) -->
+                <div class="product-card" data-category="brakes" data-name="heavy duty ceramic brake pads set front rear" onclick="openModal('Heavy Duty Ceramic Brake Pads Set (Front/Rear)', 2200, 'https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&w=800&q=80', 'In Stock (25 sets available)')">
+                    <span class="card-stock-badge instock">In Stock</span>
                     <img src="https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&w=800&q=80" alt="Brake Pads">
                     <div class="product-card-info">
                         <div>
@@ -1303,7 +1352,9 @@
                     </div>
                 </div>
 
-                <div class="product-card" data-category="shocks" data-name="gas type heavy duty shocks absorber set" onclick="openModal('Gas-Type Heavy Duty Shocks / Absorber Set', 5800, 'https://images.unsplash.com/photo-1486006920555-c77dce18193b?auto=format&fit=crop&w=800&q=80')">
+                <!-- Product 4: Shocks (Out of Stock) -->
+                <div class="product-card" data-category="shocks" data-name="gas type heavy duty shocks absorber set" onclick="openModal('Gas-Type Heavy Duty Shocks / Absorber Set', 5800, 'https://images.unsplash.com/photo-1486006920555-c77dce18193b?auto=format&fit=crop&w=800&q=80', 'Out of Stock (Restock arriving soon)')">
+                    <span class="card-stock-badge outofstock">Out of Stock</span>
                     <img src="https://images.unsplash.com/photo-1486006920555-c77dce18193b?auto=format&fit=crop&w=800&q=80" alt="Shocks">
                     <div class="product-card-info">
                         <div>
@@ -1314,7 +1365,9 @@
                     </div>
                 </div>
 
-                <div class="product-card" data-category="oil" data-name="fully synthetic diesel engine oil 5l 15w40" onclick="openModal('Fully Synthetic Diesel Engine Oil (5L - 15W40)', 2800, 'https://images.unsplash.com/photo-1487754180451-c456f719a1fc?auto=format&fit=crop&w=800&q=80')">
+                <!-- Product 5: Oil (In Stock) -->
+                <div class="product-card" data-category="oil" data-name="fully synthetic diesel engine oil 5l 15w40" onclick="openModal('Fully Synthetic Diesel Engine Oil (5L - 15W40)', 2800, 'https://images.unsplash.com/photo-1487754180451-c456f719a1fc?auto=format&fit=crop&w=800&q=80', 'In Stock (40 jugs available)')">
+                    <span class="card-stock-badge instock">In Stock</span>
                     <img src="https://images.unsplash.com/photo-1487754180451-c456f719a1fc?auto=format&fit=crop&w=800&q=80" alt="Engine Oil">
                     <div class="product-card-info">
                         <div>
@@ -1325,7 +1378,9 @@
                     </div>
                 </div>
 
-                <div class="product-card" data-category="tires" data-name="commercial van tires heavy duty all season" onclick="openModal('Commercial Van Tires (Heavy Duty All-Season)', 4200, 'https://images.unsplash.com/photo-1578844251758-2f71da64c96f?auto=format&fit=crop&w=800&q=80')">
+                <!-- Product 6: Tires (Low Stock) -->
+                <div class="product-card" data-category="tires" data-name="commercial van tires heavy duty all season" onclick="openModal('Commercial Van Tires (Heavy Duty All-Season)', 4200, 'https://images.unsplash.com/photo-1578844251758-2f71da64c96f?auto=format&fit=crop&w=800&q=80', 'Low Stock (Only 4 pieces left!)')">
+                    <span class="card-stock-badge lowstock">Low Stock</span>
                     <img src="https://images.unsplash.com/photo-1578844251758-2f71da64c96f?auto=format&fit=crop&w=800&q=80" alt="Tires">
                     <div class="product-card-info">
                         <div>
@@ -1335,6 +1390,7 @@
                         <div class="btn-view-details">View Details</div>
                     </div>
                 </div>
+
             </div>
         </section>
     </div>
@@ -1462,6 +1518,7 @@
             <div class="modal-details-box">
                 <h2 id="modalTitle" class="modal-title">Product Name</h2>
                 <div id="modalPrice" class="modal-price">₱0.00 PHP</div>
+                <div id="modalStockStatus" class="modal-stock-status">Checking stock...</div>
 
                 <div style="font-size: 0.85rem; font-weight: 600; color: #aaa; margin-bottom: 6px; text-transform: uppercase;">Quantity</div>
                 <div class="modal-quantity-area">
@@ -1470,7 +1527,7 @@
                     <button class="modal-qty-btn" onclick="modalIncrement()">+</button>
                 </div>
 
-                <button class="modal-btn-cart" onclick="addCurrentProductToCart()">Add to Cart</button>
+                <button id="modalAddCartBtn" class="modal-btn-cart" onclick="addCurrentProductToCart()">Add to Cart</button>
                 
                 <a id="modalInquireBtn" href="#" target="_blank" class="modal-btn-inquire">
                     <i class="fab fa-facebook-messenger"></i> Inquire via Messenger
@@ -1553,14 +1610,12 @@
             checkShopStatus();
         });
 
-        // Real-Time Shop Status Checker (Mon-Sat, 8:00 AM - 6:00 PM)
         function checkShopStatus() {
             const now = new Date();
-            const day = now.getDay(); // 0 is Sunday, 1-6 is Mon-Sat
+            const day = now.getDay();
             const hour = now.getHours();
             const badge = document.getElementById('shopStatusBadge');
 
-            // Mon(1) to Sat(6), between 8 AM (8) and 6 PM (18)
             const isOpen = (day >= 1 && day <= 6) && (hour >= 8 && hour < 18);
 
             if (isOpen) {
@@ -1575,7 +1630,7 @@
         let cart = [];
         let reviews = [];
         let selectedServiceToBook = "";
-        let currentModalProduct = { title: "", price: 0, imgSrc: "" };
+        let currentModalProduct = { title: "", price: 0, imgSrc: "", stockText: "" };
 
         function switchView(viewId) {
             const views = document.querySelectorAll('.page-view');
@@ -1621,14 +1676,36 @@
             });
         }
 
-        function openModal(title, price, imgSrc) {
-            currentModalProduct = { title, price, imgSrc };
+        function openModal(title, price, imgSrc, stockText) {
+            currentModalProduct = { title, price, imgSrc, stockText };
             document.getElementById('modalTitle').innerText = title;
             document.getElementById('modalPrice').innerText = '₱' + price.toLocaleString() + '.00 PHP';
             document.getElementById('modalImg').src = imgSrc;
             document.getElementById('modalQty').value = 1;
+
+            let stockBadgeEl = document.getElementById('modalStockStatus');
+            let addCartBtn = document.getElementById('modalAddCartBtn');
+
+            stockBadgeEl.innerText = stockText;
+
+            if (stockText.toLowerCase().includes('out of stock')) {
+                stockBadgeEl.style.backgroundColor = '#c62828';
+                stockBadgeEl.style.color = '#fff';
+                addCartBtn.disabled = true;
+                addCartBtn.innerText = "Out of Stock (Inquire via Messenger)";
+            } else if (stockText.toLowerCase().includes('low stock')) {
+                stockBadgeEl.style.backgroundColor = '#e65100';
+                stockBadgeEl.style.color = '#fff';
+                addCartBtn.disabled = false;
+                addCartBtn.innerText = "Add to Cart";
+            } else {
+                stockBadgeEl.style.backgroundColor = '#2e7d32';
+                stockBadgeEl.style.color = '#fff';
+                addCartBtn.disabled = false;
+                addCartBtn.innerText = "Add to Cart";
+            }
             
-            let encodedMessage = encodeURIComponent(`Hello Nihon Automotives PH, I would like to inquire about this part: ${title} (Price: ₱${price.toLocaleString()}.00 PHP)`);
+            let encodedMessage = encodeURIComponent(`Hello Nihon Automotives PH, I would like to inquire about this part: ${title} (${stockText}) - Price: ₱${price.toLocaleString()}.00 PHP`);
             document.getElementById('modalInquireBtn').href = `https://m.me/NihonAutomotives?text=${encodedMessage}`;
 
             document.getElementById('productModal').style.display = 'flex';
