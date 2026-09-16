@@ -19,6 +19,60 @@
             overflow-x: hidden;
         }
 
+        /* Loading Screen Styles - Transparent Logo Background */
+        #loader-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #0b0b0b;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        .loader-logo {
+            height: 70px;
+            object-fit: contain;
+            margin-bottom: 25px;
+            mix-blend-mode: screen; /* Ginagawang transparent ang itim na background ng logo image */
+            animation: pulseLogo 1.5s infinite alternate;
+        }
+
+        .loader-bar-container {
+            width: 220px;
+            height: 4px;
+            background-color: #222;
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .loader-bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 0%;
+            background-color: #d32f2f;
+            animation: loadProgress 1.8s forwards ease-in-out;
+        }
+
+        @keyframes loadProgress {
+            0% { width: 0%; }
+            50% { width: 70%; }
+            100% { width: 100%; }
+        }
+
+        @keyframes pulseLogo {
+            0% { transform: scale(1); opacity: 0.7; }
+            100% { transform: scale(1.05); opacity: 1; }
+        }
+
         /* Header / Navbar */
         header {
             display: flex;
@@ -137,15 +191,6 @@
             width: 18px;
         }
 
-        .contacts-dropdown .dropdown-content {
-            left: auto;
-            right: 0;
-            min-width: unset;
-            display: flex;
-            gap: 10px;
-            padding: 10px;
-        }
-
         .social-popup-item {
             display: flex;
             align-items: center;
@@ -169,6 +214,7 @@
         .page-view {
             display: none;
             min-height: calc(100vh - 85px);
+            flex-direction: column;
         }
 
         .page-view.active {
@@ -179,6 +225,7 @@
         .hero {
             width: 100%;
             display: flex;
+            flex: 1;
         }
 
         .hero-left {
@@ -206,7 +253,7 @@
         }
 
         .hero-left h1 {
-            font-size: 4.2rem;
+            font-size: 3.5rem;
             font-weight: 800;
             line-height: 1.1;
             color: #ffffff;
@@ -221,7 +268,7 @@
             font-size: 1.15rem;
             color: #dddddd;
             margin-bottom: 40px;
-            max-width: 450px;
+            max-width: 500px;
             line-height: 1.5;
             position: relative;
             z-index: 2;
@@ -951,7 +998,7 @@
                 flex-direction: column;
             }
             .hero-left h1 {
-                font-size: 3rem;
+                font-size: 2.5rem;
             }
             .hero-right {
                 min-height: 400px;
@@ -976,29 +1023,43 @@
 </head>
 <body>
 
+    <!-- Loading Screen with Transparent Logo and Loading Bar -->
+    <div id="loader-screen">
+        <img src="nihon.webp" alt="Nihon Automotives Logo" class="loader-logo">
+        <div class="loader-bar-container">
+            <div class="loader-bar"></div>
+        </div>
+    </div>
+
     <!-- Header Section -->
     <header>
         <div class="logo-container">
-            <img src="logo.jpg" alt="Nihon Automotives PH Logo" onclick="switchView('home-view')">
+            <img src="nihon.webp" alt="Nihon Automotives PH Logo" onclick="switchView('home-view')">
         </div>
         <nav>
             <button onclick="switchView('home-view')">Home</button>
             
+            <!-- Social Icons Directly on Top Navbar -->
+            <div style="display: flex; gap: 8px; align-items: center;">
+                <a href="https://www.facebook.com/NihonAutomotives" target="_blank" title="Facebook" class="social-popup-item"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://www.youtube.com/@meytv6264" target="_blank" title="YouTube" class="social-popup-item"><i class="fab fa-youtube"></i></a>
+            </div>
+
+            <!-- Auto parts & Services Dropdown -->
             <div class="dropdown">
                 <button class="dropdown-btn">Auto parts & Services <i class="fas fa-chevron-down" style="font-size: 11px;"></i></button>
                 <div class="dropdown-content">
                     <button onclick="switchView('parts-view')"><i class="fas fa-car-side"></i> Surplus & Brand New Parts</button>
                     <button onclick="switchView('services-view')"><i class="fas fa-tools"></i> Maintenance & Repair</button>
-                    <a href="https://www.lazada.com.ph/shop/mjd-japtech-autoparts-and-accessories-shop/?spm=a2o4l.pdp_revamp.seller.1.2ad67f68bIhYWP&itemId=1765886167&channelSource=pdp" target="_blank"><i class="fas fa-shopping-bag"></i> Shop on Lazada</a>
                 </div>
             </div>
             
-            <div class="dropdown contacts-dropdown">
-                <button class="dropdown-btn">Contacts <i class="fas fa-chevron-down" style="font-size: 11px;"></i></button>
+            <!-- Shop Dropdown (Lazada & Shopee) -->
+            <div class="dropdown">
+                <button class="dropdown-btn">Shop <i class="fas fa-chevron-down" style="font-size: 11px;"></i></button>
                 <div class="dropdown-content">
-                    <a href="https://www.facebook.com/NihonAutomotives" target="_blank" title="Facebook" class="social-popup-item"><i class="fab fa-facebook-f"></i></a>
-                    <a href="https://www.lazada.com.ph/shop/mjd-japtech-autoparts-and-accessories-shop/?spm=a2o4l.pdp_revamp.seller.1.2ad67f68bIhYWP&itemId=1765886167&channelSource=pdp" target="_blank" title="Lazada Shop" class="social-popup-item"><i class="fas fa-shopping-bag"></i></a>
-                    <a href="#" target="_blank" title="YouTube" class="social-popup-item"><i class="fab fa-youtube"></i></a>
+                    <a href="https://www.lazada.com.ph/shop/mjd-japtech-autoparts-and-accessories-shop/?spm=a2o4l.pdp_revamp.seller.1.2ad67f68bIhYWP&itemId=1765886167&channelSource=pdp" target="_blank"><i class="fas fa-shopping-bag" style="color: #0f146d;"></i> Lazada Shop</a>
+                    <a href="https://shopee.ph/meynard13?entryPoint=ShopBySearch&searchKeyword=mjd" target="_blank"><i class="fas fa-store" style="color: #ee4d2d;"></i> Shopee Shop</a>
                 </div>
             </div>
 
@@ -1013,8 +1074,8 @@
     <div id="home-view" class="page-view active">
         <section class="hero">
             <div class="hero-left">
-                <h1>Toyota Hiace Van & Parts Specialists</h1>
-                <p>Your trusted source for surplus and brand new Japanese van spare parts, accessories, and expert maintenance services.</p>
+                <h1>Nihon Automotives Parts and Services</h1>
+                <p>Nihon Automotives Parts and Services. Clear, accurate parts with fast, friendly service for Filipino drivers. Easy transactions, detailed fitment, and reliable after-sales support.</p>
                 <div class="hero-buttons">
                     <button class="btn-quote" onclick="switchView('parts-view')">Browse Parts</button>
                     <button class="btn-lazada" onclick="switchView('services-view')" style="background-color:#d32f2f; border-color:#d32f2f;"><i class="fas fa-tools"></i> View Services</button>
@@ -1025,9 +1086,9 @@
                 <div class="info-box">
                     <div class="info-item">
                         <div class="info-title">
-                            <i class="fas fa-headset"></i> Call Us 24/7
+                            <i class="fas fa-headset"></i> Call Us
                         </div>
-                        <div class="info-desc">+63 912-345-6789</div>
+                        <div class="info-desc">+63916-403-5627</div>
                     </div>
                     <div class="info-item">
                         <div class="info-title">
@@ -1289,6 +1350,15 @@
     </div>
 
     <script>
+        // Hide loader screen once fully loaded
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                const loader = document.getElementById('loader-screen');
+                loader.style.opacity = '0';
+                loader.style.visibility = 'hidden';
+            }, 1200);
+        });
+
         let cart = [];
         let selectedServiceToBook = "";
         let currentModalProduct = { title: "", price: 0, imgSrc: "" };
